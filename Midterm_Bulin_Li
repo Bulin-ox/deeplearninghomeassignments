@@ -1,0 +1,60 @@
+globals().clear()
+from __future__ import print_function
+import keras
+from keras.datasets import cifar10
+from keras.preprocessing.image import ImageDataGenerator
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Conv2D, MaxPooling2D
+import os
+import keras
+from matplotlib import pyplot as plt
+import pandas as pd
+#loading data into keras
+
+df = pd.read_excel('C:\\Users\\50266\\Downloads\\Copy of SoilMoistureInversionDatawith_real3.xlsx')
+from sklearn.model_selection import train_test_split
+
+# Specify the column indices you want to use as features
+feature_columns_indices = [0, 1, 2, 3, 4, 5, 6, 7]  # Adjust these indices as needed
+
+# Specify the column indices you want to use as the target variable
+target_columns_indices = [8, 9, 10, 11, 12, 13]  # Adjust these indices as needed
+
+# Extract the features and target variables using the specified indices
+x_train = df.iloc[:, feature_columns_indices]
+y_train = df.iloc[:, target_columns_indices]
+
+# Split the data into training and testing sets
+x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
+x_train/=max(x_train)
+x_test/=max(x_test)
+y_train/=max(y_train)
+y_test/=max(y_test)
+print('x_train',x_train)
+print('y_train',y_train)
+print('x_train shape:',x_train.shape)
+print('x_test shape:',x_test.shape)
+print('y_train shape:',y_train.shape)
+print('y_test shape:',y_test.shape)
+from keras import models
+from keras import layers
+model0 = Sequential()
+model0.add(layers.Dense(512,activation='sigmoid',input_shape=(8,)))
+model0.add(layers.Dense(512,activation='sigmoid'))
+model0.add(layers.Dense(512,activation='sigmoid'))
+model0.add(layers.Dense(512,activation='sigmoid'))
+model0.add(layers.Dense(512,activation='sigmoid'))
+model0.add(layers.Dense(512,activation='sigmoid'))
+model0.add(layers.Dense(512,activation='sigmoid'))
+model0.add(layers.Dense(512,activation='sigmoid'))
+model0.add(layers.Dense(6,activation='sigmoid'))
+model0.summary()
+model0.compile(optimizer='adam',loss='mse',metrics=['mse'])
+model0_history=model0.fit(x_train, y_train, batch_size=50,epochs=20,validation_data=(x_test,y_test),shuffle=True)
+scores0 = model0.evaluate(x_test, y_test, verbose=1)
+print('Test loss:', scores0[0])
+print('Test mse:', scores0[1])
+scores1 = model0.evaluate(x_train, y_train, verbose=1)
+print('Train loss:', scores1[0])
+print('Train mse:', scores1[1])
