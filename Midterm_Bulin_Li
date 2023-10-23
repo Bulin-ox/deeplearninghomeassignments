@@ -1,3 +1,4 @@
+#some summaries from the current project: 1, the training accuracy seems similar in nearly all types of deep learning models(change epoch, layer number, activation function, etc.), I just select a seems easier one.
 globals().clear()
 from __future__ import print_function
 import keras
